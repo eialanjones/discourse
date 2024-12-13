@@ -209,6 +209,8 @@ export default class ComposerEditor extends Component {
       this._throttledSyncEditorAndPreviewScroll
     );
 
+    input?.addEventListener("touchmove", this._textareaTouchMove);
+
     // Focus on the body unless we have a title
     if (!this.get("composer.model.canEditTitle")) {
       this.textManipulation.putCursorAtEnd();
@@ -219,6 +221,8 @@ export default class ComposerEditor extends Component {
         "scroll",
         this._throttledSyncEditorAndPreviewScroll
       );
+
+      input?.removeEventListener("touchmove", this._textareaTouchMove);
     };
   }
 
@@ -276,6 +280,18 @@ export default class ComposerEditor extends Component {
       this.composer.model.editingFirstPost ||
       this.composer.model.creatingSharedDraft
     );
+  }
+
+  _textareaTouchMove(event) {
+    // TODO: should we limit this to mobile + ipad?
+    if (event.target) {
+      const notScrollable =
+        event.target.scrollHeight <= event.target.clientHeight;
+      if (notScrollable) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
   }
 
   _resetShouldBuildScrollMap() {
