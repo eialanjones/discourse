@@ -2,7 +2,7 @@
   <DButtonTooltip>
     <:button>
       <DButton
-        @action={{this.action}}
+        {{on "click" this.action}}
         @icon="plus"
         @disabled={{this.disabled}}
         @label={{this.label}}

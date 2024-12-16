@@ -576,6 +576,7 @@
             @editFirstPost={{action "editFirstPost"}}
             @deferTopic={{action "deferTopic"}}
             @replyToPost={{action "replyToPost"}}
+            @replyToTopic={{this.reply}}
           />
         {{else}}
           <AnonymousTopicFooterButtons @topic={{this.model}} />

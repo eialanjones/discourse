@@ -1,4 +1,5 @@
 import Component from "@glimmer/component";
+import { on } from "@ember/modifier";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import concatClass from "discourse/helpers/concat-class";
@@ -26,7 +27,7 @@ export default class PostMenuReplyButton extends Component {
         (if this.showLabel "create fade-out")
       }}
       ...attributes
-      @action={{@buttonActions.replyToPost}}
+      {{on "click" @buttonActions.replyToPost}}
       @icon="reply"
       @label={{if this.showLabel "topic.reply.title"}}
       @title="post.controls.reply"

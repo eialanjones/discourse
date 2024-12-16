@@ -1852,6 +1852,7 @@ export default class TopicController extends Controller.extend(
     }
   }
 
+  @bind
   reply() {
     this.replyToPost();
   }

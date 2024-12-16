@@ -131,7 +131,7 @@
   {{#if this.topic.details.can_create_post}}
     <DButton
       @icon="reply"
-      @action={{this.replyToPost}}
+      {{on "click" this.replyToTopic}}
       @label="topic.reply.title"
       @title="topic.reply.help"
       class="btn-primary create"
