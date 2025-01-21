@@ -32,6 +32,7 @@ import { wantsNewWindow } from "discourse/lib/intercept-click";
 import { buildQuote } from "discourse/lib/quote";
 import renderTags from "discourse/lib/render-tags";
 import { emojiUnescape } from "discourse/lib/text";
+import { applyValueTransformer } from "discourse/lib/transformer";
 import {
   authorizesOneOrMoreExtensions,
   uploadIcon,
@@ -156,11 +157,13 @@ export default class ComposerService extends Service {
     "_disableSubmit"
   )
   get disableSubmit() {
-    return (
+    return applyValueTransformer(
+      "composer-disable-submit",
       this.model?.loading ||
-      this.isUploading ||
-      this.isProcessingUpload ||
-      this._disableSubmit
+        this.isUploading ||
+        this.isProcessingUpload ||
+        this._disableSubmit,
+      { model: this.model }
     );
   }
 
