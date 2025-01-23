@@ -311,6 +311,20 @@ describe "Admin | Sidebar Navigation", type: :system do
     expect(links.map(&:text)).to eq(["Themes and components"])
   end
 
+  it "highlights the 'Themes and components' link when the 'Look and feel' themes page is visited" do
+    visit("/admin/config/look-and-feel/themes")
+    expect(page).to have_css(
+      '.sidebar-section-link-wrapper[data-list-item-name="admin_themes_and_components"] a.active',
+    )
+  end
+
+  it "highlights the 'Themes and components' link when the 'Look and feel' components page is visited" do
+    visit("/admin/config/look-and-feel/components")
+    expect(page).to have_css(
+      '.sidebar-section-link-wrapper[data-list-item-name="admin_themes_and_components"] a.active',
+    )
+  end
+
   it "does not show the button to customize sidebar sections, that is only supported in the main panel" do
     visit("/")
     expect(sidebar).to have_add_section_button

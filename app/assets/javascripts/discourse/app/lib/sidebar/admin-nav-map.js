@@ -135,6 +135,8 @@ export const ADMIN_NAV_MAP = [
       {
         name: "admin_themes_and_components",
         route: "adminConfig.lookAndFeel.themes",
+        currentWhen:
+          "adminConfig.lookAndFeel.themes adminConfig.lookAndFeel.components",
         label: "admin.appearance.sidebar_link.themes_and_components.title",
         icon: "paintbrush",
         keywords:

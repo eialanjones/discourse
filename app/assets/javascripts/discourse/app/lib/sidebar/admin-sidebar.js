@@ -89,6 +89,9 @@ class SidebarAdminSectionLink extends BaseCustomSidebarSectionLink {
         return this.router.currentRoute.name;
       }
     }
+    if (this.adminSidebarNavLink.currentWhen) {
+      return this.adminSidebarNavLink.currentWhen;
+    }
   }
 
   get keywords() {
