@@ -303,12 +303,12 @@ describe "Admin | Sidebar Navigation", type: :system do
     filter.filter("air")
     links = page.all(".sidebar-section-link-content-text")
     expect(links.count).to eq(1)
-    expect(links.map(&:text)).to eq(["Themes"])
+    expect(links.map(&:text)).to eq(["Themes and components"])
 
     filter.filter("kanban")
     links = page.all(".sidebar-section-link-content-text")
     expect(links.count).to eq(1)
-    expect(links.map(&:text)).to eq(["Components"])
+    expect(links.map(&:text)).to eq(["Themes and components"])
   end
 
   it "does not show the button to customize sidebar sections, that is only supported in the main panel" do

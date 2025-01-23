@@ -7,7 +7,10 @@ describe "Admin Customize Themes", type: :system do
 
   let(:admin_customize_themes_page) { PageObjects::Pages::AdminCustomizeThemes.new }
 
-  before { sign_in(admin) }
+  before do
+    SiteSetting.admin_sidebar_enabled_groups = ""
+    sign_in(admin)
+  end
 
   describe "when visiting the page to customize themes" do
     fab!(:theme_2) { Fabricate(:theme, name: "Cool theme 2") }
@@ -209,10 +212,10 @@ describe "Admin Customize Themes", type: :system do
     end
 
     context "when visting a component's page" do
-      before { theme.switch_to_component! }
+      fab!(:component) { Fabricate(:theme, component: true, name: "Cool component 493") }
 
       it "has a link to the components 'look and feel' page" do
-        visit("/admin/customize/themes/#{theme.id}")
+        visit("/admin/customize/themes/#{component.id}")
         expect(admin_customize_themes_page).to have_back_button_to_components_page
       end
     end
