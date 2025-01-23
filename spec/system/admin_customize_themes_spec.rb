@@ -189,4 +189,32 @@ describe "Admin Customize Themes", type: :system do
       expect(theme_translations_picker.component.text).to eq("English (US)")
     end
   end
+
+  describe "when using the admin sidebar" do
+    fab!(:group) { Fabricate(:group, users: [admin]) }
+
+    before { SiteSetting.admin_sidebar_enabled_groups = group.id.to_s }
+
+    it "hides the themes/components inner sidebar and the page header" do
+      visit("/admin/customize/themes")
+      expect(admin_customize_themes_page).to have_no_themes_list
+      expect(admin_customize_themes_page).to have_no_page_header
+    end
+
+    context "when visting a theme's page" do
+      it "has a link to the themes 'look and feel' page" do
+        visit("/admin/customize/themes/#{theme.id}")
+        expect(admin_customize_themes_page).to have_back_button_to_themes_page
+      end
+    end
+
+    context "when visting a component's page" do
+      before { theme.switch_to_component! }
+
+      it "has a link to the components 'look and feel' page" do
+        visit("/admin/customize/themes/#{theme.id}")
+        expect(admin_customize_themes_page).to have_back_button_to_components_page
+      end
+    end
+  end
 end

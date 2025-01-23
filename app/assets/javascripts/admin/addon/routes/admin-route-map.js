@@ -273,6 +273,7 @@ export default function () {
         });
         this.route("lookAndFeel", { path: "/look-and-feel" }, function () {
           this.route("themes");
+          this.route("components");
         });
         this.route(
           "adminPermalinks",
