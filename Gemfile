@@ -149,10 +149,7 @@ group :test, :development do
   gem "rspec-html-matchers"
   gem "pry-stack_explorer", require: false
   gem "byebug", require: ENV["RM_INFO"].nil?, platform: :mri
-  gem "rubocop-discourse",
-      require: false,
-      github: "discourse/rubocop-discourse",
-      branch: "loic-support-for-services-lock"
+  gem "rubocop-discourse", require: false
   gem "parallel_tests"
 
   gem "rswag-specs"
