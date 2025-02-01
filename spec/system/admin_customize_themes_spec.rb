@@ -205,7 +205,7 @@ describe "Admin Customize Themes", type: :system do
     end
 
     context "when visting a theme's page" do
-      it "has a link to the themes 'look and feel' page" do
+      it "has a link to the themes page" do
         visit("/admin/customize/themes/#{theme.id}")
         expect(admin_customize_themes_page).to have_back_button_to_themes_page
       end
@@ -214,7 +214,7 @@ describe "Admin Customize Themes", type: :system do
     context "when visting a component's page" do
       fab!(:component) { Fabricate(:theme, component: true, name: "Cool component 493") }
 
-      it "has a link to the components 'look and feel' page" do
+      it "has a link to the components page" do
         visit("/admin/customize/themes/#{component.id}")
         expect(admin_customize_themes_page).to have_back_button_to_components_page
       end

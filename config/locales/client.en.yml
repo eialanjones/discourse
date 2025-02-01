@@ -5851,8 +5851,8 @@ en:
           delete: "Delete"
           more_options:
             title: "More options"
-        look_and_feel:
-          title: "Look and feel"
+        themes_and_components:
+          title: "Themes and components"
           description: "Customize and brand your Discourse site, giving it a distinctive style."
           themes:
             title: "Themes"

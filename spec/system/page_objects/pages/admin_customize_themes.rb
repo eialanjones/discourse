@@ -33,15 +33,15 @@ module PageObjects
 
       def has_back_button_to_themes_page?
         has_css?(
-          '.back-to-look-and-feel a[href="/admin/config/look-and-feel/themes"]',
-          text: I18n.t("admin_js.admin.config_areas.look_and_feel.themes.back"),
+          '.back-to-themes-and-components a[href="/admin/config/themes-and-components/themes"]',
+          text: I18n.t("admin_js.admin.config_areas.themes_and_components.themes.back"),
         )
       end
 
       def has_back_button_to_components_page?
         has_css?(
-          '.back-to-look-and-feel a[href="/admin/config/look-and-feel/components"]',
-          text: I18n.t("admin_js.admin.config_areas.look_and_feel.components.back"),
+          '.back-to-themes-and-components a[href="/admin/config/themes-and-components/components"]',
+          text: I18n.t("admin_js.admin.config_areas.themes_and_components.components.back"),
         )
       end
 

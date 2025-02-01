@@ -418,13 +418,13 @@ Discourse::Application.routes.draw do
           collection { put "/" => "about#update" }
         end
 
-        resources :look_and_feel,
-                  path: "look-and-feel",
+        resources :themes_and_components,
+                  path: "themes-and-components",
                   constraints: AdminConstraint.new,
                   only: %i[index] do
           collection do
-            get "/themes" => "look_and_feel#themes"
-            get "/components" => "look_and_feel#components"
+            get "/themes" => "themes_and_components#themes"
+            get "/components" => "themes_and_components#components"
           end
         end
       end

@@ -5,9 +5,9 @@ import DPageSubheader from "discourse/components/d-page-subheader";
 import { i18n } from "discourse-i18n";
 import InstallThemeModal from "admin/components/modal/install-theme";
 import ThemesGrid from "admin/components/themes-grid";
-import { COMPONENTS } from "admin/models/theme";
+import { THEMES } from "admin/models/theme";
 
-export default class AdminConfigAreasLookAndFeelComponents extends Component {
+export default class AdminConfigAreasThemes extends Component {
   @service modal;
   @service router;
   @service toasts;
@@ -25,13 +25,13 @@ export default class AdminConfigAreasLookAndFeelComponents extends Component {
   // that sits in the route.
   installThemeOptions() {
     return {
-      selectedType: COMPONENTS,
+      selectedType: THEMES,
       userId: null,
       content: [],
-      installedThemes: this.args.components,
+      installedThemes: this.args.themes,
       addTheme: this.addTheme,
       updateSelectedType: () => {},
-      showComponentsOnly: true,
+      showThemesOnly: true,
     };
   }
 
@@ -50,8 +50,10 @@ export default class AdminConfigAreasLookAndFeelComponents extends Component {
 
   <template>
     <DPageSubheader
-      @titleLabel={{i18n "admin.config_areas.look_and_feel.components.title"}}
-      @descriptionLabel={{i18n "admin.customize.theme.components_intro_new"}}
+      @titleLabel={{i18n
+        "admin.config_areas.themes_and_components.themes.title"
+      }}
+      @descriptionLabel={{i18n "admin.customize.theme.themes_intro_new"}}
       @learnMoreUrl="https://meta.discourse.org/t/93648"
     >
       <:actions as |actions|>
@@ -59,13 +61,13 @@ export default class AdminConfigAreasLookAndFeelComponents extends Component {
           @action={{this.installModal}}
           @label="admin.customize.install"
           @icon="upload"
-          class="admin-look-and-feel__install-theme"
+          class="admin-themes-and-components__install-theme"
         />
       </:actions>
     </DPageSubheader>
 
     <div class="admin-detail">
-      <ThemesGrid @themes={{@components}} />
+      <ThemesGrid @themes={{@themes}} />
     </div>
   </template>
 }
