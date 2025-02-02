@@ -15,6 +15,7 @@ pt_BR:
       load_more: "Carregar mais comentários"
       error_creating: "Ocorreu um erro ao criar o post. Por favor, tente novamente."
       create_comment: "Criar comentário"
+      disabled: "Posts rápidos estão desabilitados para este tópico."
     number:
       format:
         separator: ","

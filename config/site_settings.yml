@@ -1066,10 +1066,10 @@ posting:
     type: list
     list_type: compact
     validator: "MarkdownTypographerQuotationMarksValidator"
-    default: "“|”|‘|’"
+    default: "“|"
     locale_default:
-      de: "„|“|‚|‘"
-      fr: "«\xA0|\xA0»|‹\xA0|\xA0›"
+      de: "„|"
+      fr: "«\xA0|\xA0»"
   suppress_reply_directly_below:
     client: true
     default: true
@@ -1363,6 +1363,11 @@ posting:
     type: integer
     min: 1
     hidden: true
+  enable_quick_posts:
+    client: true
+    default: true
+    refresh: true
+    area: "flags"
 
 email:
   email_time_window_mins:

@@ -27,10 +27,12 @@ export default class QuickPosts extends Component {
 
   constructor() {
     super(...arguments);
-    this.loadInitialPosts();
+    if (this.siteSettings.enable_quick_posts) {
+      this.loadInitialPosts();
+    }
   }
 
-get minimumPostLength() {
+  get minimumPostLength() {
     return this.siteSettings.min_post_length;
   }
 
@@ -45,8 +47,6 @@ get minimumPostLength() {
   get charCounterClass() {
     return this.isValidLength ? "valid" : "invalid";
   }
-
-
 
   @action
   updateReplyContent(event) {
@@ -135,84 +135,86 @@ get minimumPostLength() {
   }
 
   <template>
-    <div class="quick-posts">
-      {{#if this.isLoading}}
-        <div class="loading-spinner">
-          {{i18n "quick_posts.loading"}}
-        </div>
-      {{else}}
-        <div class="quick-posts-list">
-          {{#each this.posts as |post|}}
-            <div class="quick-post-item">
-              <div class="quick-post-avatar">
-                {{avatar post.user imageSize="small"}}
-              </div>
-              <div class="quick-post-content">
-                <div class="quick-post-meta">
-                  <span class="username">{{post.user.username}}</span>
-                  <span class="date">{{formatDate post.created_at}}</span>
+    {{#if this.siteSettings.enable_quick_posts}}
+      <div class="quick-posts">
+        {{#if this.isLoading}}
+          <div class="loading-spinner">
+            {{i18n "quick_posts.loading"}}
+          </div>
+        {{else}}
+          <div class="quick-posts-list">
+            {{#each this.posts as |post|}}
+              <div class="quick-post-item">
+                <div class="quick-post-avatar">
+                  {{avatar post.user imageSize="small"}}
                 </div>
-                <div class="cooked">
-                  {{htmlSafe post.cooked}}
+                <div class="quick-post-content">
+                  <div class="quick-post-meta">
+                    <span class="username">{{post.user.username}}</span>
+                    <span class="date">{{formatDate post.created_at}}</span>
+                  </div>
+                  <div class="cooked">
+                    {{htmlSafe post.cooked}}
+                  </div>
                 </div>
               </div>
-            </div>
-          {{/each}}
-        </div>
+            {{/each}}
+          </div>
 
-        {{#if this.currentUser}}
-          {{#if this.hasMorePosts}}
-            <button
-              class="btn-flat load-more"
-              {{on "click" this.loadAllPosts}}
-            >
-              {{i18n "quick_posts.load_more"}}
-            </button>
-          {{/if}}
+          {{#if this.currentUser}}
+            {{#if this.hasMorePosts}}
+              <button
+                class="btn-flat load-more"
+                {{on "click" this.loadAllPosts}}
+              >
+                {{i18n "quick_posts.load_more"}}
+              </button>
+            {{/if}}
 
-          {{#if this.showReplyForm}}
-            <div class="quick-reply">
-              <div class="quick-reply-input">
-                <div class="quick-reply-avatar">
-                  {{avatar this.currentUser imageSize="small"}}
+            {{#if this.showReplyForm}}
+              <div class="quick-reply">
+                <div class="quick-reply-input">
+                  <div class="quick-reply-avatar">
+                    {{avatar this.currentUser imageSize="small"}}
+                  </div>
+                  <textarea
+                    value={{this.replyContent}}
+                    placeholder={{i18n "quick_posts.write_comment"}}
+                    {{on "input" this.updateReplyContent}}
+                    class={{if this.showError "error"}}
+                  ></textarea>
+                  <div class="quick-reply-footer">
+                    <span class="char-counter {{this.charCounterClass}}">
+                      {{this.currentCharCount}}/{{this.minimumPostLength}}
+                    </span>
+                    <DButton
+                      @class="btn-primary"
+                      @action={{this.submitReply}}
+                      @disabled={{not this.replyContent}}
+                      @icon="paper-plane"
+                      @title={{if this.showError (i18n "composer.min_length_error" count=this.minimumPostLength)}}
+                    />
+                  </div>
                 </div>
-                <textarea
-                  value={{this.replyContent}}
-                  placeholder={{i18n "quick_posts.write_comment"}}
-                  {{on "input" this.updateReplyContent}}
-                  class={{if this.showError "error"}}
-                ></textarea>
-                <div class="quick-reply-footer">
-                  <span class="char-counter {{this.charCounterClass}}">
-                    {{this.currentCharCount}}/{{this.minimumPostLength}}
-                  </span>
-                  <DButton
-                    @class="btn-primary"
-                    @action={{this.submitReply}}
-                    @disabled={{not this.replyContent}}
-                    @icon="paper-plane"
-                    @title={{if this.showError (i18n "composer.min_length_error" count=this.minimumPostLength)}}
-                  />
-                </div>
+                {{#if this.showError}}
+                  <div class="quick-reply-error">
+                    {{i18n "composer.min_length_error" count=this.minimumPostLength}}
+                  </div>
+                {{/if}}
               </div>
-              {{#if this.showError}}
-                <div class="quick-reply-error">
-                  {{i18n "composer.min_length_error" count=this.minimumPostLength}}
-                </div>
-              {{/if}}
-            </div>
-          {{else}}
-            <div class="quick-reply-actions">
-              <DButton
-                @class="btn-flat create-quick-post"
-                @action={{this.toggleReplyForm}}
-                @icon="comment"
-                @label="quick_posts.create_comment"
-              />
-            </div>
+            {{else}}
+              <div class="quick-reply-actions">
+                <DButton
+                  @class="btn-flat create-quick-post"
+                  @action={{this.toggleReplyForm}}
+                  @icon="comment"
+                  @label="quick_posts.create_comment"
+                />
+              </div>
+            {{/if}}
           {{/if}}
         {{/if}}
-      {{/if}}
-    </div>
+      </div>
+    {{/if}}
   </template>
 }

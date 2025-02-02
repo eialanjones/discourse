@@ -260,12 +260,14 @@ class TopicsController < ApplicationController
 
     include_suggested = params[:include_suggested] == "true"
 
-    if params[:all_quick_posts] == "true"
-      posts = Post.all_quick_posts(params[:topic_id])
-      render json: { posts: ActiveModel::ArraySerializer.new(posts, each_serializer: QuickPostSerializer).as_json }
-      return
-    elsif params[:quick_posts] == "true"
-      posts = Post.quick_posts(params[:topic_id])
+    if params[:all_quick_posts] == "true" || params[:quick_posts] == "true"
+      return render json: { error: I18n.t("quick_posts.disabled") } unless SiteSetting.enable_quick_posts
+
+      if params[:all_quick_posts] == "true"
+        posts = Post.all_quick_posts(params[:topic_id])
+      else
+        posts = Post.quick_posts(params[:topic_id])
+      end
       render json: { posts: ActiveModel::ArraySerializer.new(posts, each_serializer: QuickPostSerializer).as_json }
       return
     end
