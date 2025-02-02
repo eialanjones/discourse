@@ -22,6 +22,7 @@ import { wantsNewWindow } from "discourse/lib/intercept-click";
 import { applyValueTransformer } from "discourse/lib/transformer";
 import DiscourseURL from "discourse/lib/url";
 import { i18n } from "discourse-i18n";
+import QuickPosts from "discourse/components/topic-list/quick-posts";
 
 export default class Item extends Component {
   @service historyStore;
@@ -396,5 +397,12 @@ export default class Item extends Component {
         {{/if}}
       </PluginOutlet>
     </tr>
+    {{#unless this.useMobileLayout}}
+      <tr class="topic-list-item-quick-posts">
+        <td colspan="6">
+          <QuickPosts @topic={{@topic}} />
+        </td>
+      </tr>
+    {{/unless}}
   </template>
 }

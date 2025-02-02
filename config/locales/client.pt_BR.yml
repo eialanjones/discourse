@@ -6,6 +6,15 @@
 
 pt_BR:
   js:
+    quick_posts:
+      show_comments: "Mostrar comentários"
+      hide_comments: "Esconder comentários"
+      loading: "Carregando comentários..."
+      write_comment: "Escreva um comentário..."
+      submit: "Enviar"
+      load_more: "Carregar mais comentários"
+      error_creating: "Ocorreu um erro ao criar o post. Por favor, tente novamente."
+      create_comment: "Criar comentário"
     number:
       format:
         separator: ","
@@ -826,7 +835,7 @@ pt_BR:
       member_added: "Adicionado"
       member_requested: "Pedido em"
       add_members:
-        title: "Adicionar usuários(a) a %{group_name}"
+        title: "Adicionar usuários(as) a %{group_name}"
         description: "Insira uma lista de usuários(as) que você quer convidar para o grupo ou cole em uma lista separada por vírgulas:"
         usernames_placeholder: "nomes de usuário(a)"
         usernames_or_emails_placeholder: "nomes de usuário(a) ou e-maiis"
@@ -2439,6 +2448,9 @@ pt_BR:
       confirm_publish: "Você tem certeza de que deseja publicar este rascunho?"
       publishing: "Publicando tópico…"
     composer:
+      min_length_error:
+        one: "A mensagem é muito curta, deve ter pelo menos %{count} caractere."
+        other: "A mensagem é muito curta, deve ter pelo menos %{count} caracteres."
       emoji: "Emoji :)"
       more_emoji: "mais…"
       options: "Opções"
@@ -4867,7 +4879,7 @@ pt_BR:
         dismiss_notice: "Descartar"
         new_features:
           title: "Novidades?"
-          subtitle: "Estamos lançando recursos e melhorias inéditas o tempo todo. Esta página contém os principais. Clique em \"Saiba mais\" se quiser ver as notas da versão completas."
+          subtitle: "Estamos lançando recursos e melhorias inéditas o tempo todo. Esta página contém os principais."
           previous_announcements: "Confira os anúncios de recursos novos no <a href='%{url}' target='_blank'>Discourse Meta</a>"
           learn_more: "Saiba mais..."
           experimental: "Experimental"

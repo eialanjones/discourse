@@ -2642,6 +2642,9 @@ en:
       options: "Options"
       whisper: "whisper"
       unlist: "unlisted"
+      min_length_error:
+        one: "Message is too short, must be at least %{count} character."
+        other: "Message is too short, must be at least %{count} characters."
 
       add_warning: "This is an official warning."
       toggle_whisper: "Toggle Whisper"
@@ -3143,6 +3146,17 @@ en:
         user_requires_approval: "%{username} requires approval"
         default_item: "reviewable item #%{reviewable_id}"
 
+    quick_posts:
+      show_comments: "Show Comments"
+      hide_comments: "Hide Comments"
+      loading: "Loading comments..."
+      write_comment: "Write a comment..."
+      create_comment: "Comment"
+      load_more: "Load more comments"
+      error_creating: "There was a problem creating your comment."
+      create_comment: "Create Comment"
+      
+      
     topics:
       new_messages_marker: "last visit"
       bulk:

@@ -256,9 +256,19 @@ class TopicsController < ApplicationController
 
   def posts
     params.require(:topic_id)
-    params.permit(:post_ids, :post_number, :username_filters, :filter, :include_suggested)
+    params.permit(:post_ids, :post_number, :username_filters, :filter, :include_suggested, :all_quick_posts)
 
     include_suggested = params[:include_suggested] == "true"
+
+    if params[:all_quick_posts] == "true"
+      posts = Post.all_quick_posts(params[:topic_id])
+      render json: { posts: ActiveModel::ArraySerializer.new(posts, each_serializer: QuickPostSerializer).as_json }
+      return
+    elsif params[:quick_posts] == "true"
+      posts = Post.quick_posts(params[:topic_id])
+      render json: { posts: ActiveModel::ArraySerializer.new(posts, each_serializer: QuickPostSerializer).as_json }
+      return
+    end
 
     options = {
       filter_post_number: params[:post_number],
@@ -266,7 +276,7 @@ class TopicsController < ApplicationController
       asc: ActiveRecord::Type::Boolean.new.deserialize(params[:asc]),
       filter: params[:filter],
       include_suggested: include_suggested,
-      include_related: include_suggested,
+      include_related: include_suggested
     }
 
     fetch_topic_view(options)
@@ -898,20 +908,15 @@ class TopicsController < ApplicationController
     topic = Topic.with_deleted.find_by(id: topic_id)
     guardian.ensure_can_move_posts!(topic)
 
-    if params[:title].present?
-      # when creating a new topic, ensure the 1st post is a regular post
-      if Post.where(topic: topic, id: post_ids).order(:post_number).pick(:post_type) !=
+    if Post.where(topic: topic, id: post_ids).order(:post_number).pick(:post_type) !=
            Post.types[:regular]
-        return(
-          render_json_error(
-            "When moving posts to a new topic, the first post must be a regular post.",
-          )
+        return render_json_error(
+          "When moving posts to a new topic, the first post must be a regular post."
         )
-      end
+    end
 
-      if params[:category_id].present?
-        guardian.ensure_can_create_topic_on_category!(params[:category_id])
-      end
+    if params[:category_id].present?
+      guardian.ensure_can_create_topic_on_category!(params[:category_id])
     end
 
     hijack do
@@ -1265,40 +1270,6 @@ class TopicsController < ApplicationController
     end
   end
 
-  def redirect_to_correct_topic(topic, post_number = nil)
-    begin
-      guardian.ensure_can_see!(topic)
-    rescue Discourse::InvalidAccess => ex
-      raise(SiteSetting.detailed_404 ? ex : Discourse::NotFound)
-    end
-
-    # Allow plugins to append allowed query parameters, so they aren't scrubbed on redirect to proper topic URL
-    additional_allowed_query_parameters =
-      DiscoursePluginRegistry.apply_modifier(
-        :redirect_to_correct_topic_additional_query_parameters,
-        [],
-      )
-
-    opts =
-      params.slice(
-        *%i[page print filter_top_level_replies preview_theme_id].concat(
-          additional_allowed_query_parameters,
-        ),
-      )
-    opts.delete(:page) if params[:page] == 0
-
-    url = topic.relative_url
-    url << "/#{post_number}" if post_number.to_i > 0
-    url << ".json" if request.format.json?
-
-    opts.each do |k, v|
-      s = url.include?("?") ? "&" : "?"
-      url << "#{s}#{k}=#{v}"
-    end
-
-    redirect_to url, status: 301
-  end
-
   def track_visit_to_topic
     topic_id = @topic_view.topic.id
     ip = request.remote_ip
@@ -1399,9 +1370,7 @@ class TopicsController < ApplicationController
   def move_posts_to_destination(topic)
     args = {}
     args[:title] = params[:title] if params[:title].present?
-    args[:destination_topic_id] = params[:destination_topic_id].to_i if params[
-      :destination_topic_id
-    ].present?
+    args[:destination_topic_id] = params[:destination_topic_id].to_i if params[:destination_topic_id].present?
     args[:tags] = params[:tags] if params[:tags].present?
     args[:chronological_order] = params[:chronological_order] == "true"
     args[:freeze_original] = true if params[:freeze_original] == "true"
@@ -1488,5 +1457,39 @@ class TopicsController < ApplicationController
     else
       :all
     end
+  end
+
+  def redirect_to_correct_topic(topic, post_number = nil)
+    begin
+      guardian.ensure_can_see!(topic)
+    rescue Discourse::InvalidAccess => ex
+      raise(SiteSetting.detailed_404 ? ex : Discourse::NotFound)
+    end
+
+    # Allow plugins to append allowed query parameters, so they aren't scrubbed on redirect to proper topic URL
+    additional_allowed_query_parameters =
+      DiscoursePluginRegistry.apply_modifier(
+        :redirect_to_correct_topic_additional_query_parameters,
+        [],
+      )
+
+    opts =
+      params.slice(
+        *%i[page print filter_top_level_replies preview_theme_id].concat(
+          additional_allowed_query_parameters,
+        ),
+      )
+    opts.delete(:page) if params[:page] == 0
+
+    url = topic.relative_url
+    url << "/#{post_number}" if post_number.to_i > 0
+    url << ".json" if request.format.json?
+
+    opts.each do |k, v|
+      s = url.include?("?") ? "&" : "?"
+      url << "#{s}#{k}=#{v}"
+    end
+
+    redirect_to url, status: 301
   end
 end

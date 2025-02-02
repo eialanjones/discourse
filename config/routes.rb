@@ -1715,5 +1715,9 @@ Discourse::Application.routes.draw do
       # Routes that are only used for testing
       get "/test_net_http_timeouts" => "test_requests#test_net_http_timeouts"
     end
+
+    # Quick Posts
+    get "/t/:topic_id/quick_posts" => "quick_posts#index", :format => :json
+    post "/t/:topic_id/quick_posts" => "quick_posts#create", :format => :json
   end
 end

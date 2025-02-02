@@ -1,7 +1,7 @@
 <DPageHeader
   @titleLabel={{i18n "admin.dashboard.new_features.title"}}
   @descriptionLabel={{i18n "admin.dashboard.new_features.subtitle"}}
-  @learnMoreUrl="https://meta.discourse.org/tags/c/announcements/67/release-notes"
+  {{!-- @learnMoreUrl="https://meta.discourse.org/tags/c/announcements/67/release-notes" --}}
   @hideTabs={{true}}
 >
   <:breadcrumbs>
@@ -21,6 +21,6 @@
 
 <div class="admin-container admin-config-page__main-area">
   <div class="admin-config-area">
-    <DashboardNewFeatures @onCheckForFeatures={{this.bindCheckFeatures}} />
+    {{!-- <DashboardNewFeatures @onCheckForFeatures={{this.bindCheckFeatures}} /> --}}
   </div>
 </div>
