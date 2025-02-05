@@ -153,6 +153,23 @@ class Post < ActiveRecord::Base
           )
         end
 
+  scope :quick_posts, ->(topic_id) {
+    where(topic_id: topic_id)
+      .where(deleted_at: nil)
+      .where.not(post_number: 1)
+      .order(created_at: :desc)
+      .includes(:user)
+      .limit(3)
+  }
+
+  scope :all_quick_posts, ->(topic_id) {
+    where(topic_id: topic_id)
+      .where(deleted_at: nil)
+      .where.not(post_number: 1)
+      .order(created_at: :desc)
+      .includes(:user)
+  }
+
   delegate :username, to: :user
 
   def self.hidden_reasons

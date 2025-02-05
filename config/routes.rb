@@ -1649,5 +1649,16 @@ Discourse::Application.routes.draw do
 
     get "/form-templates/:id" => "form_templates#show"
     get "/form-templates" => "form_templates#index"
+
+    get "/emojis" => "emojis#index"
+
+    if Rails.env.test?
+      # Routes that are only used for testing
+      get "/test_net_http_timeouts" => "test_requests#test_net_http_timeouts"
+    end
+
+    # Quick Posts
+    get "/t/:topic_id/quick_posts" => "quick_posts#index", :format => :json
+    post "/t/:topic_id/quick_posts" => "quick_posts#create", :format => :json
   end
 end
