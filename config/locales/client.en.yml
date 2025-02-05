@@ -3033,6 +3033,7 @@ en:
       load_more: "Load more comments"
       error_creating: "There was a problem creating your comment."
       create_comment: "Create Comment"
+      disabled: "Quick posts are disabled for this topic."
       
       
     topics:

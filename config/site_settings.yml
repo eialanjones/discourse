@@ -965,7 +965,7 @@ posting:
     type: list
     list_type: compact
     validator: "MarkdownTypographerQuotationMarksValidator"
-    default: "“|”|‘|’"
+    default: "“|"
     locale_default:
       de: "„|“|‚|‘"
       fr: "«\xA0|\xA0»|‹\xA0|\xA0›"
@@ -1227,6 +1227,16 @@ posting:
   max_form_template_content_length:
     default: 5000
     max: 150000
+  group_pm_user_limit:
+    default: 1000
+    type: integer
+    min: 1
+    hidden: true
+  enable_quick_posts:
+    client: true
+    default: true
+    refresh: true
+    area: "flags"
 
 email:
   email_time_window_mins:
